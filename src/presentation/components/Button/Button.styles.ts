@@ -7,7 +7,7 @@ export interface IButtonProps {
   $height?: string;
   $fontSize?: string;
   children: React.ReactNode;
-  onClick?: () => void;
+  onClick?: (() => void) | ((e: React.MouseEvent<HTMLButtonElement>) => void);
 }
 
 const Primary = styled.button<IButtonProps>`
@@ -23,7 +23,7 @@ const Primary = styled.button<IButtonProps>`
   justify-content: center;
   align-items: center;
   gap: 0.5rem;
-  border-radius: 0.25rem;
+  border-radius: 0.5rem;
   background: ${({ theme }) => theme.colors?.primary['01']};
   cursor: pointer;
   border: none;
@@ -52,10 +52,10 @@ const Secondary = styled.button<IButtonProps>`
   justify-content: center;
   align-items: center;
   gap: 0.5rem;
-  border-radius: 0.25rem;
+  border-radius: 0.5rem;
   background: transparent;
   cursor: pointer;
-  border: 2px solid ${({ theme }) => theme.colors?.primary['01']};
+  border: 3px solid ${({ theme }) => theme.colors?.primary['01']};
   transition: all 0.2s ease;
 
   &:hover {
@@ -81,7 +81,7 @@ const Tertiary = styled.button<IButtonProps>`
   justify-content: center;
   align-items: center;
   gap: 0.5rem;
-  border-radius: 0.25rem;
+  border-radius: 0.5rem;
   background: ${({ theme }) => theme.colors?.secondary['blue']};
   border: 0.1rem solid ${({ theme }) => theme.colors?.primary['01']};
   cursor: pointer;

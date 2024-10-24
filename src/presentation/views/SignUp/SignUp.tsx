@@ -1,6 +1,8 @@
 'use client';
 
-import { CssBaseline, Paper, Box, Grid } from '@mui/material';
+import { useState } from 'react';
+
+import { Box, Grid } from '@mui/material';
 import Link from 'next/link';
 
 import { Button } from '@/presentation/components/Button/Button';
@@ -10,100 +12,144 @@ import { useSignUp } from './hooks/useSignUp';
 import { Input } from '@/presentation/components/Input/Input';
 
 export const SignUp: React.FC = () => {
-  const { errors, handleInputChange, handleSubmit } = useSignUp();
+  const {
+    formData,
+    errors,
+    validateField,
+    validateIfPasswordMatch,
+    handleInputChange,
+    handleFirstStep,
+    handleSubmit,
+    isFirstStep,
+  } = useSignUp();
+
+  const [isChecked, setIsChecked] = useState(false);
+  const buttonText = isFirstStep ? 'Continuar' : 'Cadastrar';
 
   return (
-    <Grid container component="main" sx={{ height: '100vh' }}>
-      <Grid item xs={false} sm={4} md={6} sx={SignUpStyles.LeftSide} />
-      <CssBaseline />
-      <Grid item xs={12} sm={8} md={6} component={Paper} elevation={6}>
-        <Box sx={SignUpStyles.RightSide}>
+    <SignUpStyles.GridContainer>
+      <Grid item justifyContent="center">
+        <SignUpStyles.Box>
           <SignUpStyles.LogoContainer>
             <SignUpStyles.TagLogo src={tagLogoOrange} alt="Take a Guide Icon" />
 
-            <SignUpStyles.Title>
-              Cadastre-se e comece a usar o Take a Guide
-            </SignUpStyles.Title>
+            <SignUpStyles.Title>Faça seu cadastro</SignUpStyles.Title>
           </SignUpStyles.LogoContainer>
+          <Box sx={{ mt: 1 }} width="100%">
+            <SignUpStyles.InputContainer>
+              {isFirstStep ? (
+                <>
+                  <SignUpStyles.NameContainer>
+                    <Input
+                      placeholder="Nome"
+                      onChange={handleInputChange}
+                      onBlur={() => validateField({ name: 'name' })}
+                      name="name"
+                      required
+                      errorMessage={errors.name}
+                    />
+                    <Input
+                      placeholder="Sobrenome"
+                      onChange={handleInputChange}
+                      onBlur={() => validateField({ name: 'lastName' })}
+                      name="lastName"
+                      required
+                      errorMessage={errors.lastName}
+                    />
+                  </SignUpStyles.NameContainer>
 
-          <Box
-            component="form"
-            noValidate
-            onSubmit={handleSubmit}
-            sx={{ mt: 1 }}
-            width="100%"
-          >
-            <>
-              <SignUpStyles.InputContainer>
-                <Input
-                  placeholder="Nome completo"
-                  onChange={handleInputChange}
-                  name="name"
-                  required
-                />
-                <Input
-                  placeholder="Email"
-                  onChange={handleInputChange}
-                  name="email"
-                  required
-                  errorMessage={errors.email}
-                />
-                <Input
-                  placeholder="CPF"
-                  onChange={handleInputChange}
-                  name="cpf"
-                  required
-                  errorMessage={errors.cpf}
-                />
-                <Input
-                  placeholder="Telefone (xx) xxxxx-xxxx"
-                  onChange={handleInputChange}
-                  name="phone"
-                  required
-                  errorMessage={errors.phone}
-                />
-                <Input
-                  placeholder="Senha"
-                  onChange={handleInputChange}
-                  type="password"
-                  name="password"
-                  required
-                  errorMessage={errors.password}
-                />
-                <Input
-                  placeholder="Confirmar Senha"
-                  onChange={handleInputChange}
-                  type="password"
-                  name="confirmPassword"
-                  required
-                />
-              </SignUpStyles.InputContainer>
+                  <Input
+                    placeholder="CPF"
+                    onChange={handleInputChange}
+                    onBlur={() => validateField({ name: 'cpf' })}
+                    name="cpf"
+                    required
+                    errorMessage={errors.cpf}
+                  />
+                </>
+              ) : (
+                <>
+                  <Input
+                    placeholder="Email"
+                    onChange={handleInputChange}
+                    onBlur={() => validateField({ name: 'email' })}
+                    name="email"
+                    required
+                    errorMessage={errors.email}
+                  />
 
-              <Grid item xs={12} marginTop={2}>
-                <Button.Primary $width="100%">Cadastrar</Button.Primary>
-              </Grid>
+                  <Input
+                    placeholder="Telefone (xx) xxxxx-xxxx"
+                    value={formData.phone}
+                    onChange={handleInputChange}
+                    onBlur={() => validateField({ name: 'phone' })}
+                    name="phone"
+                    required
+                    errorMessage={errors.phone}
+                  />
+                  <Input
+                    placeholder="Senha"
+                    onChange={handleInputChange}
+                    onBlur={() => validateField({ name: 'password' })}
+                    type="password"
+                    name="password"
+                    required
+                    errorMessage={errors.password}
+                  />
+                  <Input
+                    placeholder="Confirmar Senha"
+                    onChange={handleInputChange}
+                    onBlur={() => validateIfPasswordMatch()}
+                    type="password"
+                    name="confirmPassword"
+                    required
+                    errorMessage={errors.confirmPassword}
+                  />
 
-              <Grid
-                container
-                sx={{ justifyContent: 'center', marginTop: '.5rem' }}
-              >
-                <Grid item>
-                  Já possui uma conta?
-                  <Link
-                    href="/login"
-                    style={{
-                      textDecoration: 'underline',
-                      marginLeft: '0.25rem',
+                  <SignUpStyles.CheckBoxContainer
+                    onClick={() => {
+                      setIsChecked(!isChecked);
+                      formData.type = isChecked ? 1 : 2;
                     }}
                   >
-                    {'Login'}
-                  </Link>
-                </Grid>
+                    <Input type="checkbox" />
+
+                    <span>Sou um guia</span>
+                  </SignUpStyles.CheckBoxContainer>
+                </>
+              )}
+            </SignUpStyles.InputContainer>
+            <Grid item xs={12} marginTop={2}>
+              <Button.Primary
+                $width="100%"
+                onClick={() => {
+                  isFirstStep ? handleFirstStep() : handleSubmit();
+                }}
+              >
+                {buttonText}
+              </Button.Primary>
+            </Grid>
+
+            <Grid
+              container
+              sx={{ justifyContent: 'center', marginTop: '2rem' }}
+            >
+              <Grid item>
+                Já possui uma conta?
+                <Link
+                  href="/login"
+                  style={{
+                    textDecoration: 'underline',
+                    marginLeft: '0.25rem',
+                  }}
+                >
+                  {'Login'}
+                </Link>
               </Grid>
-            </>
+            </Grid>
           </Box>
-        </Box>
+        </SignUpStyles.Box>
       </Grid>
-    </Grid>
+    </SignUpStyles.GridContainer>
   );
 };

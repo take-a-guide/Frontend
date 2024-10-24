@@ -4,10 +4,7 @@ const Container = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  border-top-left-radius: 0.75rem;
-  border-bottom-left-radius: 0.75rem;
-  border-top-right-radius: 0.25rem;
-  border-bottom-right-radius: 0.25rem;
+  border-radius: 0.75rem;
   background: ${({ theme }) => theme.colors.neutral['white']};
   overflow: hidden;
   width: 100%;
@@ -29,7 +26,7 @@ const Container = styled.div`
   @media (max-width: 899px) {
     flex-direction: column;
     padding: 0;
-    border-top-left-radius: 0.25rem;
+    border-radius: 0.75rem;
 
     > img {
       max-width: 100%;

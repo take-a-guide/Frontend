@@ -6,7 +6,7 @@ const Container = styled.div`
   align-items: center;
   justify-content: center;
   gap: 4rem;
-  border-radius: 0.25rem;
+  border-radius: 0.75rem;
   background: ${({ theme }) => theme.colors.neutral['white']};
   border: 1px solid ${({ theme }) => theme.colors.neutral['gray-2']};
   max-width: 30rem;

@@ -62,6 +62,12 @@ const Item = styled(Link)`
   color: ${({ theme }) => theme.colors.secondary['blue']};
   font-weight: 500;
   font-size: 0.875rem;
+  transition: color 0.2s ease;
+
+  &:hover {
+    cursor: pointer;
+    color: ${({ theme }) => theme.colors.primary['01']};
+  }
 `;
 
 const ButtonsContainer = styled.div`

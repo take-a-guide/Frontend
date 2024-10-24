@@ -18,9 +18,8 @@ const Container = styled.div<IInputStyleProps>`
   align-items: flex-start;
   justify-content: center;
   width: 100%;
-  gap: 0.5rem;
+  gap: 0.25rem;
 
-  
   > span {
     color: ${({ theme }) => theme.colors.secondary['red']};
     font-size: 0.75rem;
@@ -29,11 +28,11 @@ const Container = styled.div<IInputStyleProps>`
 
 const Input = styled(TextField)<IInputStyleProps>`
   width: ${({ $width }) => $width || '100%'};
-  padding: ${({ $padding }) => $padding || '0.5rem'};
+  padding: ${({ $padding }) => $padding};
   height: ${({ $height }) => $height};
   font-size: ${({ $fontSize }) => $fontSize || '1rem'};
-  color: ${({ $color, theme }) => $color || theme.colors.neutral['black']};
-  border-radius: ${({ $borderRadius }) => $borderRadius || '0.25rem'};
+  color: ${({ $color, theme }) => $color || theme.colors.secondary['blue']};
+  border-radius: ${({ $borderRadius }) => $borderRadius || '0.75rem'};
   font-family: ${roboto};
 
   &:focus,

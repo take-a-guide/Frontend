@@ -25,7 +25,7 @@ const TripCoupleImage = styled(Image)`
 `;
 
 const Title = styled.h1`
-  color: ${({ theme }) => theme.colors.neutral['black']};
+  color: ${({ theme }) => theme.colors.secondary['blue']};
   font-size: 1.25rem;
 `;
 

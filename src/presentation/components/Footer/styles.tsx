@@ -1,13 +1,14 @@
 import styled from '@emotion/styled';
 
 const Container = styled.div`
-  background: #f1f1f1;
+  background: ${({ theme }) => theme.colors.neutral['white']};
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 100%;
+  overflow: hidden;
   height: 12rem;
-  /* border-top: 1px solid #e5e5e5; */
-  box-shadow: 0px -1px 2px -1px rgba(206, 206, 206, 0.75);
+  box-shadow: -2px -2px 2px -1px rgba(206, 206, 206, 0.75);
 `;
 
 const Content = styled.div`

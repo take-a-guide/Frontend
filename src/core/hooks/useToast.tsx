@@ -1,4 +1,5 @@
 import { toast as toasts } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 interface IToastProps {
   title: string;
@@ -13,12 +14,27 @@ interface IToastProps {
 }
 
 export const useToast = () => {
-  const toast = ({ title, position = 'top-right', type }: IToastProps) => {
-    toasts.success(title, {
-      position,
-      autoClose: 3000,
-      type,
-    });
+  const toast = ({
+    title,
+    position = 'top-right',
+    type = 'default',
+  }: IToastProps) => {
+    switch (type) {
+      case 'success':
+        toasts.success(title, { position });
+        break;
+      case 'error':
+        toasts.error(title, { position });
+        break;
+      case 'warning':
+        toasts.warn(title, { position });
+        break;
+      case 'info':
+        toasts.info(title, { position });
+        break;
+      default:
+        toasts(title, { position });
+    }
   };
 
   return {

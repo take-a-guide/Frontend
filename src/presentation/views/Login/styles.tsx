@@ -16,7 +16,7 @@ const Box = styled.div`
   justify-content: center;
   padding: 0.75rem 3rem;
   background: ${({ theme }) => theme.colors.neutral['white']};
-  border-radius: 0.25rem;
+  border-radius: 0.75rem;
   border: 2px solid ${({ theme }) => theme.colors.neutral['gray-1']};
   height: 40rem;
   width: 30rem;
@@ -74,14 +74,8 @@ const InputContainer = styled.div`
   justify-content: center;
   width: 100%;
   margin: 1rem 0 2rem 0;
+  gap: 0.75rem;
 `;
-
-const LeftSide = {
-  backgroundImage: 'url(https://picsum.photos/1920/1080)',
-  backgroundRepeat: 'no-repeat',
-  backgroundSize: 'cover',
-  backgroundPosition: 'center',
-};
 
 export const LoginStyles = {
   GridContainer,
@@ -90,6 +84,5 @@ export const LoginStyles = {
   TagLogo,
   Back,
   Box,
-  LeftSide,
   InputContainer,
 };

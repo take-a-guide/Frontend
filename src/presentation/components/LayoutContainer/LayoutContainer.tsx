@@ -1,3 +1,5 @@
+'use client';
+
 import { Container } from './styles';
 import { Header } from '@/presentation/components/Header/Header';
 import { Footer } from '@/presentation/components/Footer/Footer';

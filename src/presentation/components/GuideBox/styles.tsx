@@ -6,7 +6,7 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   gap: 2rem 0;
-  border-radius: 0.25rem;
+  border-radius: 0.75rem;
   transition: box-shadow 0.2s ease-in;
   width: 18rem;
 
@@ -22,7 +22,7 @@ const Content = styled.div`
     width: 100%;
     height: auto;
     max-height: 18rem;
-    border-radius: 0.25rem;
+    border-radius: 0.75rem;
   }
 `;
 
