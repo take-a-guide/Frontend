@@ -13,14 +13,18 @@ export const useSignUp = () => {
     cpf: '',
     phone: '',
     password: '',
+    confirmPassword: '',
     type: 1,
   });
 
   const [errors, setErrors] = useState({
+    name: '',
+    lastName: '',
     email: '',
     cpf: '',
     phone: '',
     password: '',
+    confirmPassword: '',
   });
 
   const { toast } = useToast();
@@ -36,6 +40,8 @@ export const useSignUp = () => {
       [name]: value,
       fullName: `${prevFormData.name} ${prevFormData.lastName}`,
     }));
+
+    console.log('formData', formData);
   };
 
   const validateField = ({ name }: { name: string }) => {
@@ -91,6 +97,20 @@ export const useSignUp = () => {
     return error === '';
   };
 
+  const validateIfPasswordMatch = () => {
+    const { password, confirmPassword } = formData;
+
+    if (password !== confirmPassword) {
+      setErrors(prevErrors => ({
+        ...prevErrors,
+        confirmPassword: 'As senhas não coincidem',
+      }));
+      return false;
+    }
+
+    return true;
+  };
+
   const validateFirstStep = () => {
     const isNameValid = validateField({ name: 'name' });
     const isLastNameValid = validateField({ name: 'lastName' });
@@ -113,6 +133,10 @@ export const useSignUp = () => {
     const isEmailValid = validateField({ name: 'email' });
     const isPhoneValid = validateField({ name: 'phone' });
     const isPasswordValid = validateField({ name: 'password' });
+
+    if (!validateIfPasswordMatch()) {
+      return false;
+    }
 
     return isEmailValid && isPhoneValid && isPasswordValid;
   };
@@ -143,8 +167,6 @@ export const useSignUp = () => {
         });
         return;
       }
-    } else {
-      console.log('form invalid');
     }
   };
 
@@ -154,8 +176,10 @@ export const useSignUp = () => {
     handleInputChange,
     validateField,
     validateSecondStep,
+    validateIfPasswordMatch,
     handleFirstStep,
     handleSubmit,
+    setFormData,
     isFirstStep,
   };
 };

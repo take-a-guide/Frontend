@@ -26,8 +26,11 @@ export const useLogin = () => {
       }
 
       setUserData(data);
+
+      console.log('userData', data);
       router.push('/');
     } catch (error) {
+      console.log('errorToSend', error);
       toast({
         title: 'Erro ao fazer login, dados incorretos',
         type: 'error',

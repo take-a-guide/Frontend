@@ -1,5 +1,5 @@
 import { useUserDataState } from '@/core/recoil/states/user';
-import { useState, useCallback } from 'react';
+import { ChangeEvent, useState } from 'react';
 import { userServices } from '@/core/services/user';
 import { useToast } from '@/core/hooks/useToast';
 
@@ -12,8 +12,10 @@ interface ChangeUserData {
 }
 
 export const useChangeUserData = () => {
-  const { userData } = useUserDataState();
+  const { userData, setUserData } = useUserDataState();
   const { toast } = useToast();
+  const [isFirstStep, setIsFirstStep] = useState(true);
+  const [firstStepPassword, setFirstStepPassword] = useState<string>('');
 
   const [dataToBeSent, setDataToBeSent] = useState<ChangeUserData>({
     cpf: userData.cpf,
@@ -23,6 +25,27 @@ export const useChangeUserData = () => {
     password: null,
   });
 
+  const handlePasswordForFirstStep = (e: ChangeEvent<HTMLInputElement>) => {
+    setFirstStepPassword(e.target.value);
+  };
+
+  const handleFirstStepValidation = async () => {
+    try {
+      await userServices.login({
+        email: userData.email,
+        password: firstStepPassword,
+      });
+      setIsFirstStep(false);
+    } catch (error) {
+      toast({
+        title: 'Senha inválida',
+        type: 'error',
+      });
+
+      return;
+    }
+  };
+
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
 
@@ -30,17 +53,23 @@ export const useChangeUserData = () => {
       ...prevData,
       [name]: value,
     }));
-    console.log('dataToBeSent', dataToBeSent);
   };
 
   const handleSubmit = async () => {
-    console.log('dataToBeSentInsub', dataToBeSent);
-
     try {
       await userServices.update(dataToBeSent);
-      //TODO: Fix this
-      //  await userServices.login({email: dataToBeSent.email !== null ? dataToBeSent.email || userData.email, password: dataToBeSent.passwor
-      //   );
+
+      const loginData = {
+        email:
+          dataToBeSent.email !== null ? dataToBeSent.email : userData.email,
+        password:
+          dataToBeSent.password !== null
+            ? dataToBeSent.password
+            : firstStepPassword,
+      };
+
+      const updatedUserData = await userServices.login(loginData);
+      setUserData(updatedUserData);
 
       toast({
         title: 'Dados alterados com sucesso',
@@ -58,5 +87,9 @@ export const useChangeUserData = () => {
   return {
     handleInputChange,
     handleSubmit,
+
+    isFirstStep,
+    handleFirstStepValidation,
+    handlePasswordForFirstStep,
   };
 };

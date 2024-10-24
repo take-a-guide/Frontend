@@ -13,14 +13,17 @@ import { Input } from '@/presentation/components/Input/Input';
 
 export const SignUp: React.FC = () => {
   const {
+    formData,
     errors,
     validateField,
+    validateIfPasswordMatch,
     handleInputChange,
     handleFirstStep,
     handleSubmit,
     isFirstStep,
   } = useSignUp();
 
+  const [isChecked, setIsChecked] = useState(false);
   const buttonText = isFirstStep ? 'Continuar' : 'Cadastrar';
 
   return (
@@ -43,6 +46,7 @@ export const SignUp: React.FC = () => {
                       onBlur={() => validateField({ name: 'name' })}
                       name="name"
                       required
+                      errorMessage={errors.name}
                     />
                     <Input
                       placeholder="Sobrenome"
@@ -50,6 +54,7 @@ export const SignUp: React.FC = () => {
                       onBlur={() => validateField({ name: 'lastName' })}
                       name="lastName"
                       required
+                      errorMessage={errors.lastName}
                     />
                   </SignUpStyles.NameContainer>
 
@@ -75,6 +80,7 @@ export const SignUp: React.FC = () => {
 
                   <Input
                     placeholder="Telefone (xx) xxxxx-xxxx"
+                    value={formData.phone}
                     onChange={handleInputChange}
                     onBlur={() => validateField({ name: 'phone' })}
                     name="phone"
@@ -93,10 +99,23 @@ export const SignUp: React.FC = () => {
                   <Input
                     placeholder="Confirmar Senha"
                     onChange={handleInputChange}
+                    onBlur={() => validateIfPasswordMatch()}
                     type="password"
                     name="confirmPassword"
                     required
+                    errorMessage={errors.confirmPassword}
                   />
+
+                  <SignUpStyles.CheckBoxContainer
+                    onClick={() => {
+                      setIsChecked(!isChecked);
+                      formData.type = isChecked ? 1 : 2;
+                    }}
+                  >
+                    <Input type="checkbox" />
+
+                    <span>Sou um guia</span>
+                  </SignUpStyles.CheckBoxContainer>
                 </>
               )}
             </SignUpStyles.InputContainer>

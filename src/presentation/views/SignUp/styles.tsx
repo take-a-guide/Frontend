@@ -84,6 +84,21 @@ const NameContainer = styled.div`
   gap: 0.5rem;
 `;
 
+const CheckBoxContainer = styled.div`
+  margin: 1rem 0 0 -1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+
+  > div {
+    border: none;
+    outline: none;
+    width: 1.5rem;
+    cursor: pointer !important;
+  }
+`;
+
 export const SignUpStyles = {
   GridContainer,
   Title,
@@ -93,4 +108,5 @@ export const SignUpStyles = {
   Box,
   InputContainer,
   NameContainer,
+  CheckBoxContainer,
 };
